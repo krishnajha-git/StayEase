@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home_pg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(215, 240, 250);
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0F2573;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .owner-id {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logout-button {
+            background-color: #FF4D4D;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #FF1A1A;
+        }
+
+        #div-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+            background-color: #ADE1FB;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .create-quiz-button {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            padding: 10px 10px;
+            background-color: #0F2573;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        
+        .create-quiz-button:hover {
+            background-color: #09224a;
+        }
+
+        /* Container for the property cards */
+        .container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping */
+            justify-content: space-between; /* Space between cards */
+            margin: 20px; /* Space around the card container */
+        }
+
+        .quiz-grid {
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping of elements */
+            justify-content: space-between; /* Space out items evenly */
+            margin: 20px; /* Optional margin */
+        }
+        
+        .quiz-card {
+            
+            background-color: #b3e5fc;
+            color: rgb(0, 0, 0);
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            margin: 10px; /* Space between cards */
+            padding: 15px; /* Inner padding */
+            width: calc(33.33% - 20px); /* Three cards per row with space for margins */
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Show ellipsis (...) for overflowed text */
+            width: 100%;
+        }
+        
+        .quiz-info {
+            white-space: nowrap; /* Prevent wrapping of text */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Show ellipsis for overflowed text */
+        }
+
+        .quiz-image img {
+            width: 100%;
+            height: 100px;
+            border-radius: 5px; /* Rounded corners for the image */
+        }
+        .address {
+            font-style: italic; /* Italicize the address */
+            margin: 5px 0; /* Add some vertical space */
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #0F2573;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #09224a;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Specific Button Styles */
+        #search {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .div-search button {
+            background-color: #0aa9e9; /* Light Blue for Search */
+        }
+        
+        .div-search button:hover {
+            background-color: #52c024; /* Green for Search on Hover */
+        }
+        
+        .div-sort button {
+            background-color: #d32f2f; /* Red for Logout */
+        }
+        
+        .div-sort button:hover {
+            background-color: #9a1d1d; /* Darker Red for Logout on Hover */
+        }
+        
+        /* Delete Button */
+        .ad-card button {
+            background-color: #d32f2f; /* Red for Delete */
+        }
+        
+        .ad-card button:hover {
+            background-color: #9a1d1d; /* Darker Red for Delete on Hover */
+        }
+        .div-div{
+            text-align: center;
+        }
+        
+
+        /* Responsive adjustment */
+        @media (max-width: 768px) {
+            .quiz-card {
+                width: calc(50% - 20px); /* 2 cards per row on smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quiz-card {
+                width: calc(100% - 20px); /* 1 card per row on mobile */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Search bar -->
+    <div id="div-container">
+        <div class="div-search">
+            
+        </div>
+        <div class="div-sort"> 
+            
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+    <div class="div-div">
+        <div class="owner-id">Hello, {{ owner_name }}</div>
+        <div class="owner-name">ID: {{ owners_id }}</div>
+    </div>
+    
+    
+    <div class="container">
+        <section class="quiz-grid">
+            {% if properties %}
+                {% for property in properties %}
+                    <div class="quiz-card">
+                        <div class="quiz-image">
+                            {% if property.profile_photo %}
+                                <img src="{{ property.profile_photo.url }}" alt="{{ property.name }}" style="width: 100%; height: 250px;" >
+                            {% else %}
+                                <img src="{% static 'images/default_pg.jpg' %}" alt="No Image">
+                            {% endif %}
+                        </div>
+                        <h3>{{ property.name }}</h3>
+                        <div class="quiz-info">
+                            <p>Single Room Charges: ₹{{ property.single_room_charges|floatformat:2 }}</p>
+                            <p>Double Room Charges: ₹{{ property.double_room_charges|floatformat:2 }}</p>
+                            <p>Triple Room Charges: ₹{{ property.triple_room_charges|floatformat:2 }}</p>
+                        </div>
+                        <button onclick="confirmDelete('{{ ad.ad_id }}', this)">Delete</button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No Property Available</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <a href="{% url 'register_property' owners_id=owners_id %}" class="create-quiz-button">
+        Add PG
+    </a>
+</body>
+<script>
+    function confirmDelete(ad_id, button) {
+        const confirmed = confirm("Are you sure you want to delete this?");
+        if (confirmed) {
+            // Send a delete request using AJAX
+            fetch(`/delete_ad/${ad_id}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // Ensure you pass the CSRF token for security
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the ad card if deletion is successful
+                    const adCard = button.closest('.ad-card');
+                    adCard.remove();
+                } else {
+                    console.error('Failed to delete the ad');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>
+</html>

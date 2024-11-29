@@ -1,0 +1,320 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase - Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            height: 125%;
+        }
+
+        .left-section, .right-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+        }
+
+        .info-box {
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .info-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00416a;
+        }
+
+        .info-box p {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .login-btn {
+            padding: 10px 20px;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .login-btn:hover {
+            background-color: #1565c0;
+        }
+
+        .right-section {
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center vertically */
+        }
+
+        .registration-box {
+            width: 101%;
+            max-width: 400px;
+            background-color: #e3efff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .registration-box h2 {
+            font-size: 1.8rem;
+            color: #00416a;
+            margin-bottom: 10px;
+        }
+
+        .registration-box p {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        
+
+        .i1{
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e3efff;
+            font-size: 1rem;
+        }
+
+        .registration-form input:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .register-btn:hover {
+            background-color: #1565c0;
+        }
+        a {
+            text-decoration: none;
+          }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="info-box">
+                <h2>StayEase</h2>
+                <p>
+                    StayEase is an innovative accommodation platform designed to meet the diverse needs of students and employees. With a wide array of listings, including PGs, it offers unique features like discounts for housekeeping staff and a comparison tool to help users find the perfect place. The website also hosts a notice board, serving as a community hub for announcements, furniture rentals, sales, and roommate searches.
+                </p>
+                <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section ">
+            <div class="registration-box">
+                <h2>TENANT REGISTRATION</h2>
+                <p>Register easily to explore and secure your perfect accommodation today </p>
+                <form method="post" action="{% url 'tenant_register' %}">
+                    {% csrf_token %}
+                    <input type="text" class="i1" name="tenant_id" id="tenant_id" placeholder="UserID" required>
+                    <span class="error" id="tenant_idError"></span>
+                    <input type="text" class="i1" name="tenant_name" id="name" placeholder="Name" required>
+                    <span class="error" id="nameError"></span>
+                    <input type="email" class="i1" name="email" id="email" placeholder="Email" required>
+                    <span class="error" id="emailError"></span>
+                    <input type="password" class="i1" name="password" id="password" placeholder="Password" required>
+                    <span class="error" id="passwordError"></span>
+                    <select name="category" class="i1" id="category">
+                        <option value="" disabled selected hidden>Category</option>
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Nts">Non-Teaching Staff</option>
+                        <option value="Hs">Housekeeping Staff</option>                 
+                    </select>
+                    <span class="error" id="categoryError"></span>
+                    <input type="date" class="i1" name="tenant_dob" id="dob" placeholder="DOB" required>
+                    <span class="error" id="dobError"></span>
+                    <input type="tel" class="i1" name="contact_details" id="phone" placeholder="Phone Number" required>
+                    <span class="error" id="phoneError"></span>
+                    <input type="text" class="i1" name="course" id="department" placeholder="Course/Department" required>
+                    <span class="error" id="departmentError"></span>
+                    <textarea name="tenant_address" class="i1" id="address" placeholder="Address" required rows="4"></textarea>
+                    <span class="error" id="addressError"></span>
+                    <button type="submit" class="register-btn">REGISTER</button>
+                </form>
+                {% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tenant_idInput = document.getElementById('tenant_id');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const categoryInput = document.getElementById('category');
+        const addressInput = document.getElementById('address');
+        const dobInput = document.getElementById('dob');
+        const phoneInput = document.getElementById('phone');
+        const departmentInput = document.getElementById('department');
+
+        tenant_idInput.addEventListener('input', () => {
+            const tenant_idValue = tenant_idInput.value.trim();
+            const tenant_idError = document.getElementById('tenant_idError');
+            if (tenant_idValue.length < 4) {
+                tenant_idError.textContent = 'UserID must be at least 4 digits';
+            } else if (!/^\d+$/.test(tenant_idValue)) {
+                tenant_idError.textContent = 'UserID must only contain digits';
+            } else {
+                tenant_idError.textContent = '';
+            }
+        });
+
+        nameInput.addEventListener('input', () => {
+            const nameValue = nameInput.value.trim();
+            const nameError = document.getElementById('nameError');
+            if (nameValue.length < 3) {
+                nameError.textContent = 'Name must be at least 3 characters';
+            } else if (nameValue.length > 25) {
+                nameError.textContent = 'Name must not exceed 25 characters';
+            } else {
+                nameError.textContent = '';
+            }
+        });
+
+        emailInput.addEventListener('input', () => {
+            const emailValue = emailInput.value.trim();
+            const emailError = document.getElementById('emailError');
+            const emailParts = emailValue.split('@');
+            if (emailParts[0].length < 5) {
+                emailError.textContent = 'Email must have at least 5 characters before the @ symbol';
+            } else {
+                emailError.textContent = '';
+            }
+        });
+
+        passwordInput.addEventListener('input', () => {
+            const passwordValue = passwordInput.value.trim();
+            const passwordError = document.getElementById('passwordError');
+            if (passwordValue.length < 7) {
+                passwordError.textContent = 'Password must be at least 7 characters';
+            } else {
+                passwordError.textContent = '';
+            }
+        });
+
+        categoryInput.addEventListener('input', () => {
+            const categoryValue = categoryInput.value.trim();
+            const categoryError = document.getElementById('categoryError');
+            if (categoryValue === '') {
+                categoryError.textContent = 'Please select a category';
+            } else {
+                categoryError.textContent = '';
+            }
+        });
+
+        addressInput.addEventListener('input', () => {
+            const addressValue = addressInput.value.trim();
+            const addressError = document.getElementById('addressError');
+            if (addressValue.length < 20) {
+                addressError.textContent = 'Address must be at least 20 characters';
+            } else {
+                addressError.textContent = '';
+            }
+        });
+
+        dobInput.addEventListener('input', () => {
+            const dobValue = dobInput.value .trim();
+            const dobError = document.getElementById('dobError');
+            const today = new Date();
+            const dobDate = new Date(dobValue);
+            if (dobDate > today) {
+                dobError.textContent = 'Date of birth cannot be in the future';
+            } else {
+                dobError.textContent = '';
+            }
+        });
+
+        phoneInput.addEventListener('input', () => {
+            const phoneValue = phoneInput.value.trim();
+            const phoneError = document.getElementById('phoneError');
+            if (!/^\d+$/.test(phoneValue)) {
+                phoneError.textContent = 'Phone number must only contain digits';
+            } else {
+                phoneError.textContent = '';
+            }
+        });
+
+        departmentInput.addEventListener('input', () => {
+            const departmentValue = departmentInput.value.trim();
+            const departmentError = document.getElementById('departmentError');
+            if (departmentValue.length > 20) {
+                departmentError.textContent = 'Course/Department must not exceed 20 characters';
+            } else {
+                departmentError.textContent = '';
+            }
+        });
+        departmentInput.addEventListener('input', () => {
+            const departmentValue = departmentInput.value.trim();
+            const departmentError = document.getElementById('departmentError');
+            
+            if (departmentValue.length < 3) {
+                departmentError.textContent = 'Course/Department must be at least 3 characters';
+            } else if (departmentValue.length > 50) {
+                departmentError.textContent = 'Course/Department must not exceed 50 characters';
+            } else {
+                departmentError.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>

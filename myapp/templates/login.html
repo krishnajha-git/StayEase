@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background: linear-gradient(to bottom right, #d1f1fa, #e1f6f4);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            display: flex;
+            width: 800px;
+            height: 450px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: white;
+        }
+        .login-box {
+            width: 60%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        .login-box h2 {
+            font-size: 24px;
+            color: #3e50b4;
+            margin-bottom: 20px;
+        }
+        .login-box form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .login-box input, .login-box select {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: #f7f7f7;
+            font-size: 14px;
+            text-align: center;
+        }
+        .login-box button {
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 25px;
+            background: linear-gradient(to right, #3498db, #8e44ad);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-box button:hover {
+            background: linear-gradient(to right, #2980b9, #7d3bb2);
+        }
+        .brand-box {
+            width: 40%;
+            background-color: #f7f7f7;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .brand-box h3 {
+            font-size: 20px;
+            color: #4b4b4b;
+            margin-bottom: 20px;
+        }
+        .brand-box .logo img {
+            height: 70px;
+            width: 230px;
+            margin-bottom: 20px;
+        }
+        .brand-box p {
+            font-size: 14px;
+            color: #7b7b7b;
+            margin-bottom: 10px;
+        }
+        .brand-box .btn {
+            padding: 10px 20px;
+            background-color: #4A90E2;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .brand-box .btn:hover {
+            background-color: #3e8ede;
+        }
+        .brand-colors {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .brand-colors .color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        .brand-colors .blue { background-color: #3498db; }
+        .brand-colors .grey { background-color: #bdc3c7; }
+        .brand-colors .green { background-color: #1abc9c; }
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>LOGIN</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="userID" placeholder="UserID" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <select id="role" name="role" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="tenant">Tenant</option>
+                    <option value="pg_owner">PG Owner</option>
+                    <option value="advertiser">Advertiser</option>
+                </select>
+                <button type="submit">Login</button>
+            </form>
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="brand-box">
+            <h3>Comfort Within Reach</h3>
+            <div class="logo">
+                <img src="{% static 'image/1.png' %}" alt="StayEase Logo">
+            </div>
+            <p>Not Registered? <a href="{% url 'choose' %}" class="btn">Register</a></p><br>
+            <p>StayEase: Your go-to platform for seamless accommodation solutions.</p>
+            <div class="brand-colors">
+                <div class="color blue"></div>
+                <div class="color grey"></div>
+                <div class="color green"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase - Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(to right, #70a5ef,#e0eafc);
+            height: 120%;
+        }
+        
+        /* Left Section */
+        .left-section {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+        }
+        
+        .info-box {
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        .info-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00416a;
+        }
+        
+        .info-box p {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+        
+        .login-btn {
+            padding: 10px 20px;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .login-btn:hover {
+            background-color: #1565c0;
+        }
+        
+        /* Right Section */
+        .right-section {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f4f8;
+        }
+        
+        .registration-box {
+            width: 400px;
+            background-color: #e3efff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .registration-box h2 {
+            font-size: 1.8rem;
+            color: #00416a;
+            margin-bottom: 10px;
+        }
+        
+        .registration-box p {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .registration-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e3efff;
+            font-size: 1rem;
+        }
+        
+        .registration-form input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        
+        .register-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .register-btn:hover {
+            background-color: #1565c0;
+        }
+        a {
+            text-decoration: none;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="info-box">
+                <h2>StayEase</h2>
+                <p>
+                    StayEase is an innovative accommodation platform designed to meet the diverse needs of students and employees. With a wide array of listings, including PGs, it offers unique features like discounts for housekeeping staff and a comparison tool to help users find the perfect place. The website also hosts a notice board, serving as a community hub for announcements, furniture rentals, sales, and roommate searches. This integrated approach makes StayEase not just an accommodation finder but a complete, user-friendly solution that enhances the entire renting experience.
+                </p>
+                <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="registration-box">
+                <h2>PG OWNER REGISTRATION</h2>
+                <p>Register easily to explore and secure your perfect accommodation today </p>
+                <form class="registration-form" method="post" action="{% url 'register_pgowner' %}">
+                    {% csrf_token %}
+                    <input type="text" name="owners_id" id="userID" placeholder="Owner ID" required>
+    <span class="error" id="userIDError"></span>
+    
+    <input type="text" name="owners_name" id="name" placeholder="Name" required>
+    <span class="error" id="nameError"></span>
+    
+    <input type="email" name="email" id="email" placeholder="Email" required>
+    <span class="error" id="emailError"></span>
+    
+    <input type="password" name="password" id="password" placeholder="Password" required>
+    <span class="error" id="passwordError"></span>
+    
+    <input type="text" name="contact_details" id="phone" placeholder="Phone Number" required>
+    <span class="error" id="phoneError"></span>
+    
+    <input type="text" name="aadhar_details" id="aadhar" placeholder="Aadhar Number" required>
+    <span class="error" id="aadharError"></span>
+                    <button type="submit" class="register-btn">REGISTER</button>
+                </form>            
+                {% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get form elements
+const userIDInput = document.getElementById('userID');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const phoneInput = document.getElementById('phone');
+const aadharInput = document.getElementById('aadhar');
+
+// Simulated database for Aadhar card numbers (can be replaced by actual database query)
+const aadharDatabase = ['123456789012', '987654321098', '111111111111'];
+
+// UserID validation
+userIDInput.addEventListener('input', () => {
+    const userIDValue = userIDInput.value.trim();
+    const userIDError = document.getElementById('userIDError');
+    if (userIDValue.length < 4) {
+        userIDError.textContent = 'UserID must be at least 4 digits';
+    } else if (!/^\d+$/.test(userIDValue)) {
+        userIDError.textContent = 'UserID must only contain digits';
+    } else if (checkIfowners_idExists(userIDValue)) {
+        userIDError.textContent = 'UserID already exists';
+    } else {
+        userIDError.textContent = '';
+    }
+});
+
+// Name validation
+nameInput.addEventListener('input', () => {
+    const nameValue = nameInput.value.trim();
+    const nameError = document.getElementById('nameError');
+    if (nameValue.length < 3) {
+        nameError.textContent = 'Name must be at least 3 characters';
+    } else if (nameValue.length > 25) {
+        nameError.textContent = 'Name must not exceed 25 characters';
+    } else {
+        nameError.textContent = '';
+    }
+});
+
+// Email validation
+emailInput.addEventListener('input', () => {
+    const emailValue = emailInput.value.trim();
+    const emailError = document.getElementById('emailError');
+    const emailParts = emailValue.split('@');
+    if (emailParts[0].length < 5) {
+        emailError.textContent = 'Email must have at least 5 characters before the @ symbol';
+    } else {
+        emailError.textContent = '';
+    }
+});
+
+// Password validation
+passwordInput.addEventListener('input', () => {
+    const passwordValue = passwordInput.value.trim();
+    const passwordError = document.getElementById('passwordError');
+    if (passwordValue.length < 7) {
+        passwordError.textContent = 'Password must be at least 7 characters';
+    } else {
+        passwordError.textContent = '';
+    }
+});
+
+// Phone validation
+phoneInput.addEventListener('input', () => {
+    const phoneValue = phoneInput.value.trim();
+    const phoneError = document.getElementById('phoneError');
+    if (!/^\d+$/.test(phoneValue)) {
+        phoneError.textContent = 'Phone number must only contain digits';
+    } else if (phoneValue.length !== 10) {
+        phoneError.textContent = 'Phone number must be 10 digits';
+    } else {
+        phoneError.textContent = '';
+    }
+});
+
+// Aadhar validation
+aadharInput.addEventListener('input', () => {
+    const aadharValue = aadharInput.value.trim();
+    const aadharError = document.getElementById('aadharError');
+    if (aadharValue.length !== 12) {
+        aadharError.textContent = 'Aadhar number must be 12 digits';
+    } else if (!/^\d+$/.test(aadharValue)) {
+        aadharError.textContent = 'Aadhar number must only contain digits';
+    } else {
+        aadharError.textContent = '';
+    }
+});
+
+// Simulated function to check if UserID exists (replace with actual backend validation)
+function checkIfowners_idExists(userID) {
+    // Replace with actual database check for UserID
+    return false; // Assume UserID is not already taken
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Properties</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(215, 240, 250);
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .property-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            width: calc(33.33% - 20px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        h3 {
+            margin: 0;
+            color: #0F2573;
+            text-align: center;
+        }
+        p {
+            margin: 5px 0;
+            color: #333;
+        }
+        .property-image {
+            margin: 10px 0;
+            text-align: center;
+        }
+        .property-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #0F2573;
+        }
+        .property-details {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .property-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            word-wrap: break-word;
+        }
+        .property-detail strong {
+            color: #0F2573;
+        }
+        .btn-view {
+            background-color: #0F2573;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+            display: block;
+        }
+        .btn-view:hover {
+            background-color: #0a1a2d;
+        }
+        a{
+            text-decoration: none;
+          }
+        @media (max-width: 768px) {
+            .property-card {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 480px) {
+            .property-card {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if properties %}
+            {% for property in properties %}
+                <div class="property-card">
+                    <h3>{{ property.name }}</h3>
+                    <div class="property-image">
+                        {% if property.profile_photo %}
+                            <img src="{{ property.profile_photo.url }}" alt="{{ property.name }} Photo">
+                        {% else %}
+                            <img src="{% static 'images/default_pg.jpg' %}" alt="No Image">
+                        {% endif %}
+                    </div>
+                    <div class="property-details">
+                        <div class="property-detail">
+                            <strong>Address:</strong> <span>{{ property.address }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Single Room Charges:</strong> <span>₹{{ property.single_room_charges|floatformat:2 }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Double Room Charges:</strong> <span>₹{{ property.double_room_charges|floatformat:2 }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Triple Room Charges:</strong> <span>₹{{ property.triple_room_charges|floatformat:2 }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Wifi:</strong> <span>{{ property.wifi|yesno:"Available,Not Available" }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Meals:</strong> <span>{{ property.meals|yesno:"Included,Not Included" }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Security:</strong> <span>{{ property.security|yesno:"Available,Not Available" }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>AC:</strong> <span>{{ property.ac }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>First Aid:</strong> <span>{{ property.first_aid|yesno:"Available,Not Available" }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>Laundry Service:</strong> <span>{{ property.laundry_service|yesno:"Available,Not Available" }}</span>
+                        </div>
+                        <div class="property-detail">
+                            <strong>House Keeping:</strong> <span>{{ property.house_keeping|yesno:"Available,Not Available" }}</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'stay' property.id %}" class="btn-view">View Details</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No properties available for comparison.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

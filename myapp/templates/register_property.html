@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Registration</title>
+    <style>
+        /* Resetting default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Setting background and font */
+        body, html {
+            font-family: 'Arial', sans-serif;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh; /* Full viewport height */
+        }
+
+        .registration-box {
+            background-color: #f0f8ff;
+            max-width: 90%; /* This ensures it fits better */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #073b88;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 5px; /* Reduced margin for better spacing */
+            border-radius: 8px;
+            border: none;
+            background-color: #e3f2fd;
+            font-size: 1rem;
+            color: #073b88;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border: 2px solid #0bb3e9;
+            background-color: #eef7ff;
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 179, 233, 0.4);
+        }
+
+        label {
+            font-weight: bold;
+            color: #073b88;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: -5px; /* Adjusted for better alignment */
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #0bb3e9, #5b85ee);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(91, 133, 238, 0.4);
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #5b85ee, #073b88);
+            box-shadow: 0 8px 20px rgba(11, 179, 233, 0.5);
+        }
+
+        .room-section, .facilities-section {
+            margin-top: 25px;
+        }
+
+        .room-group, .facility-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Align items vertically */
+        }
+
+        .room-group input, .facility-group select {
+            width: 48%;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        @media (max-width: 600px) {
+            .registration-box {
+                width: 100%;
+                padding: 20px;
+            }
+        
+            h2 {
+                font-size: 2rem;
+            }
+        
+            .room-group input, .facility-group select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</ head>
+<body>
+    <div class="container">
+        <div class="registration-box">
+            <h2>Property Registration</h2>
+
+            <form action="{% url 'register_property' owners_id=owners_id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                                
+                <input type="text" name="name" id="name" placeholder="Property/PG Name" required>
+                <div class="error" id="name-error"></div>
+
+                <!-- Rooms Section -->
+                <div class="room-section">
+                    <h3>Room Details</h3>
+
+                    <label>Single Room</label>
+                    <div class="error" id="single_room_count-error"></div>
+                    <div class="error" id="single_room_charges-error"></div>
+                    <div class="room-group">
+                        <input type="number" name="single_room_count" placeholder="No. of rooms" required>
+                        <input type="number" name="single_room_charges" placeholder="Monthly charges" required>
+                    </div>
+
+                    <label>Double Room</label>
+                    <div class="error" id="double_room_count-error"></div>
+                    <div class="error" id="double_room_charges-error"></div>
+                    <div class="room-group">
+                        <input type="number" name="double_room_count" placeholder="No. of rooms" required>
+                        <input type="number" name="double_room_charges" placeholder="Monthly charges" required>
+                    </div>
+
+                    <label>Triple Room</label>
+                    <div class="error" id="triple_room_count-error"></div>
+                    <div class="error" id="triple_room_charges-error"></div>
+                    <div class="room-group">
+                        <input type="number" name="triple_room_count" placeholder="No. of rooms" required>
+                        <div class="error" id="triple_room_count-error"></div>
+                        <input type="number" name="triple_room_charges" placeholder="Monthly charges" required>
+                    </div>
+
+                    <label>N Room</label>
+                    <div class="error" id="n_room_count-error"></div>
+                    <div class="error" id="n_room_charges-error"></div>
+                    <div class="room-group">
+                        <input type="number" name="n_room_count" placeholder="No. of rooms" required>
+                        <input type="number" name="n_room_charges" placeholder="Monthly charges" required>
+                    </div>
+                </div>
+
+                <!-- Facilities Section -->
+                <div class="facilities-section">
+                    <h3>Facilities</h3>
+                
+                    <div class="facility-group">
+                        <label>Wifi</label>
+                        <select name="wifi" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                
+                    <div class="facility-group">
+                        <label>Meals</label>
+                        <select name="meals" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                
+                    <div class="facility-group">
+                        <label>Security 24*7</label>
+                        <select name="security" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                
+                    <div class="facility-group">
+                        <label>AC / Non-AC</label>
+                        <select name="ac" required>
+                            <option value="">Select</option>
+                            <option value="AC">AC</option>
+                            <option value="Non-AC">Non-AC</option>
+                        </select>
+                    </div>
+                
+                    <div class="facility-group">
+                        <label>First Aid</label>
+                        <select name="first_aid" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option >
+                        </select>
+                    </div>
+                
+                    <div class="facility-group">
+                        <label>Laundry Service</label>
+                        <select name="laundry_service" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                
+                    <div class="facility-group ">
+                        <label>House Keeping</label>
+                        <select name="house_keeping" required>
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3>Upload Photos</h3>
+
+                <label for="profile_photo">Profile Photo</label>
+                <input type="file" name="profile_photo" id="profile_photo" accept="image/*" required>
+                <div class="error" id="profile_photo-error"></div>
+
+                <label for="pg_photos">PG Photos (Upload 4 photos)</label>
+                <input type="file" name="pg_photos" id="pg_photos" accept="image/*" multiple required>
+                <div class="error" id="pg_photos-error"></div>
+
+                <!-- Address Section -->
+                <label for="address">Address</label>
+                <textarea name="address" id="address" placeholder="Address" required rows="4"></textarea>
+                <div class="error" id="address-error"></div>
+                <input type="hidden" name="owners_id" value="{{ owners_id }}">
+                <button type="submit" class="btn">Register Property</button>
+            </form>
+            {% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+        </div>
+    </div>
+
+    <script>
+        const nameInput = document.getElementById('name');
+        const addressTextarea = document.getElementById('address');
+        const singleRoomCountInput = document.querySelector("input[name='single_room_count']");
+        const singleRoomChargesInput = document.querySelector("input[name='single_room_charges']");
+        const doubleRoomCountInput = document.querySelector("input[name='double_room_count']");
+        const doubleRoomChargesInput = document.querySelector("input[name='double_room_charges']");
+        const tripleRoomCountInput = document.querySelector("input[name='triple_room_count']");
+        const tripleRoomChargesInput = document.querySelector("input[name='triple_room_charges']");
+        const nRoomCountInput = document.querySelector("input[name='n_room_count']");
+        const nRoomChargesInput = document.querySelector("input[name='n_room_charges']");
+        const profilePhotoInput = document.getElementById('profile_photo');
+        const pgPhotosInput = document.getElementById('pg_photos');
+
+        nameInput.addEventListener('input', () => {
+            const nameValue = nameInput.value.trim();
+            if (nameValue.length < 3 || nameValue.length > 25) {
+                document.getElementById('name-error').innerText = 'Name must be between 3 and 25 characters.';
+            } else {
+                document.getElementById('name-error').innerText = '';
+            }
+        });
+
+        addressTextarea.addEventListener('input', () => {
+            const addressValue = addressTextarea.value.trim();
+            if (addressValue.length < 100 || addressValue.length > 400) {
+                document.getElementById('address-error').innerText = 'Address must be between 100 and 400 characters.';
+            } else {
+                document.getElementById('address-error').innerText = '';
+            }
+        });
+
+        function validateNumber(inputElement, errorElementId) {
+            inputElement.addEventListener('input', () => {
+                const value = inputElement.value.trim();
+                if (!Number.isInteger(+value) || +value < 0) {
+                    document.getElementById(errorElementId).innerText = 'Value must be a non-negative integer.';
+                } else {
+                    document.getElementById(errorElementId).innerText = '';
+                }
+            });
+        }
+
+        validateNumber(singleRoomCountInput, 'single_room_count-error');
+        validateNumber(singleRoomChargesInput, 'single_room_charges-error');
+        validateNumber(doubleRoomCountInput, 'double_room_count-error');
+        validateNumber(doubleRoomChargesInput, 'double_room_charges-error');
+        validateNumber(tripleRoomCountInput, 'triple_room_count-error');
+        validateNumber(tripleRoomChargesInput, 'triple_room_charges-error');
+        validateNumber(nRoomCountInput, 'n_room_count-error');
+        validateNumber(nRoomChargesInput, 'n_room_charges-error');
+
+        profilePhotoInput.addEventListener('change', () => {
+            const file = profilePhotoInput.files[0];
+            if (file) {
+                const fileType = file.type;
+                const fileSize = file.size / (1024 * 1024); // size in MB
+                if (['image/jpeg', 'image/png', 'image/jpg'].includes(fileType) && fileSize <= 3) {
+                    document.getElementById('profile_photo-error').innerText = '';
+                } else {
+                    document.getElementById('profile_photo-error').innerText = 'File must be jpg, png, Jpeg and not more than 3MB.';
+                    profilePhotoInput.value = ''; // Clear the input
+                }
+            }
+        });
+
+        pgPhotosInput.addEventListener('change', () => {
+            const files = pgPhotosInput.files;
+            let totalSize = 0;
+            if (files.length === 4) {
+                for (let i = 0; i < files.length; i++) {
+                    const fileType = files[i].type;
+                    const fileSize = files[i].size / (1024 * 1024); // size in MB
+                    totalSize += fileSize;
+                    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(fileType) || totalSize > 12) {
+                        document.getElementById('pg_photos-error').innerText = 'Each file must be jpg, png, Jpeg and total size not more than 12MB.';
+                        pgPhotosInput.value = ''; // Clear the input
+                        break;
+                    } else {
+                        document.getElementById('pg_photos-error').innerText = '';
+                    }
+                }
+            } else {
+                document.getElementById('pg_photos-error').innerText = 'You must upload exactly 4 photos.';
+                pgPhotosInput.value = ''; // Clear the input
+            }
+        });
+    </script>
+</body>
+</html>

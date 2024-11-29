@@ -1,0 +1,358 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home_pg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(215, 240, 250);
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+          }
+          
+          .value{
+            padding: 5px;
+            border-radius: 4px;
+          }
+          
+          #div-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+            background-color: #ADE1FB;
+            padding: 20px;
+            border-radius: 4px;
+          }
+          
+          .div-sort {
+            display: flex;
+            flex-direction: row;
+            gap: 10px; /* Adds space between the two buttons */
+        }
+        
+        #div-search, .div-sort {
+            margin-right: 10px;
+            align-items: center;
+        }
+        
+          .value {
+            margin-right: 10px;
+          }
+          
+          
+          
+          
+          .container {
+            display: flex;
+            flex-direction: row;
+            margin: 20px;
+          }
+          
+          
+          /* Main content styles */
+          .main-content {
+            flex: 1;
+          }
+          
+          .sort {
+            margin-bottom: 20px;
+          }
+          
+          .sort select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+          }
+          button {
+            padding: 10px 15px;
+            background-color: #0F2573;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #09224a;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Specific Button Styles */
+        #search {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .div-search button {
+            background-color: #0f0b82; /* Greenish color for Search */
+        }
+        
+        .div-search button:hover {
+            background-color: #52c024;
+        }
+        
+        .div-sort button {
+            background-color: #0f0b82; /* Red for Logout */
+        }
+        
+        .div-sort button:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Delete Button */
+        .ad-card button {
+            background-color: #0f0b82; /* Red for Delete */
+        }
+        
+        .ad-card button:hover {
+            background-color: #d32f2f;
+        }
+          
+          /* Quiz grid styles */
+          .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+          }
+          
+          .quiz-card {
+            background-color: #b3e5fc;
+            color: rgb(0, 0, 0);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          }
+          
+          .quiz-image {
+            width: 100%;
+            height: 250px;
+            background-color: #e7e7e7;
+            margin-bottom: 10px;
+          }
+          
+          .quiz-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-direction: row-reverse;
+          }
+          
+          .created-by {
+            margin-top: 10px; 
+            text-align: right; 
+          }
+          
+          
+          
+          .create-quiz-button {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            padding: 10px 10px;
+            background-color: #0F2573;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+          }
+          
+          .create-quiz-button:hover {
+            background-color: #09224a;
+          }
+          .quiz-info {
+            display: flex;
+            flex-direction: column; /* Stack the items vertically */
+            align-items: flex-start; /* Align items to the start */
+            margin-bottom: 10px;
+        }
+        
+        .quiz-info p {
+            margin: 5px 0; /* Add margin for spacing between charges */
+            font-weight: bold; /* Make the text bold for emphasis */
+            font-size: 14px; /* Adjust the font size for better readability */
+            color: #333; /* Darker text color for contrast */
+        }
+        
+        .quiz-info p::before {
+            content: " "; /* Add a space before each item */
+            display: inline-block;
+            width: 10px; /* Adjust width to create a visual gap */
+        }
+        .btn-view {
+          background-color: #0F2573;
+          color: #fff;
+          border: none;
+          padding: 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          text-align: center;
+          margin-top: 10px;
+          display: block;
+      }
+      .btn-view:hover {
+          background-color: #0a1a2d;
+      }
+      a{
+        text-decoration: none;
+      }
+          
+          @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 10px;
+            }
+          
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                height: 158px;
+                margin-bottom: 20px; /* Add margin below the sidebar */
+            }
+          
+            /* Adjust div-container for mobile */
+            #div-container {
+              display: flex;
+              justify-content: center; /* Center align elements */
+              align-items: center;
+              margin: 10px;
+              background-color: #ADE1FB;
+              padding: 20px;
+              border-radius: 4px;
+              flex-direction: column;
+            }
+          
+            /* Add spacing between the search input and dropdown in mobile */
+            #div-search, .div-sort {
+              margin-right: 0;
+              margin-bottom: 15px; /* Add space between input and dropdown */
+            }
+          
+            .main-content {
+              flex: 1;
+              margin-left: 0; /* Remove left margin */
+            }
+          
+            .created-by {
+                text-align: left; 
+            }
+            /* Add margin between the input and button */
+            #search {
+              margin-bottom: 10px; /* Space below the input field */
+            }
+          
+            .sidebar-button-b2 {
+              margin-top: 10px; /* Space above the button */
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .search-bar {
+                flex-direction: column;
+                margin-bottom: 10px; /* Add space below search bar */
+            }
+          
+            .search-bar input {
+                margin-bottom: 10px;
+            }
+          
+            
+          
+            /* Add spacing between the input and dropdown on small screens */
+            #div-search, #div-sort {
+              margin-bottom: 15px; /* Adjust spacing between input and dropdown */
+            }
+          
+            /* Add margin between quiz cards and other content */
+            .quiz-card {
+              margin-bottom: 20px; /* Adds space between quiz cards */
+            }
+          }
+    </style>
+</head>
+<body>
+    <!-- Search bar -->
+    <div id="div-container">
+        <div class="div-search">
+            
+        </div>
+        <div class="div-sort">
+          <a href="{% url 'compare_properties' %}">
+              <button>Compare</button>
+          </a>
+          <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit">Logout</button>
+          </form>
+      </div>
+      
+    </div>
+
+
+    <div class="container">
+            <!-- Main content -->
+        <main class="main-content">
+            <!-- Sort dropdown -->
+            
+
+            <!-- Quiz grid -->
+            <section class="quiz-grid">
+              {% if properties %}
+                  {% for property in properties %}
+                      <div class="quiz-card">
+                          <div class="quiz-image">
+                              {% if property.profile_photo %}
+                                  <img src="{{ property.profile_photo.url }}" alt="{{ property.name }}" style="width: 100%; height: 250px;">
+                              {% else %}
+                                  <img src="{% static 'images/default_pg.jpg' %}" alt="No Image" style="width: 100%; height: 200px;">
+                              {% endif %}
+                          </div>
+                          <h3>{{ property.name }}</h3>
+                          <div class="quiz-info">
+                                <p>Single Room Charges: ₹{{ property.single_room_charges|floatformat:2 }}</p>
+                                <p>Double Room Charges: ₹{{ property.double_room_charges|floatformat:2 }}</p>
+                                <p>Triple Room Charges: ₹{{ property.triple_room_charges|floatformat:2 }}</p>
+                          </div>
+                          <a href="{% url 'stay' property.id %}" class="btn-view">View Details</a>
+                      </div>
+                  {% endfor %}
+              {% else %}
+                  <p>No Property Available</p>
+              {% endif %}
+          </section>
+        </main>
+    </div>
+    
+</body>
+<script>
+  function deleteQuestion(button) {
+      const questionSection = button.closest('.quiz-card');
+  
+      // Check if the question section exists before trying to delete it
+      if (!questionSection) {
+          console.error('No question section found');
+          return;
+      }
+  
+      // Remove the entire question section
+      questionSection.remove();
+  }
+</script>
+</html>

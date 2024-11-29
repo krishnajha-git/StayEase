@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase - Find, Compare, and Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .logo img {
+            max-width: 150px;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #4A90E2;
+        }
+
+        .login-btn {
+            background-color: #33cc99;
+            border: 2px solid #33cc99;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #fff;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .notice-btn {
+            background-color: #479aff;
+            border: 2px solid #47c2ff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: #fff;
+            margin-left: 15px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .notice-btn:hover {
+            background-color: #e84118;
+            border-color: #e84118;
+        }
+
+        .hero-section {
+            height: 100vh;
+            background: url('{% static "image/2.png" %}') no-repeat center center/cover;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            z-index: 1;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar select, .search-bar .search-btn {
+            padding: 15px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 30px;
+        }
+
+        .search-bar .search-btn {
+            background-color: #00b894;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar .search-btn:hover {
+            background-color: #019267;
+        }
+
+        .pg-section {
+            padding: 60px 0;
+            text-align: center;
+            background-color: #fff;
+            margin-top: 100px;
+        }
+
+        .pg-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4A90E2;
+        }
+
+        .pg-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #666;
+        }
+
+        .pg-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .pg-item {
+            text-align: center;
+            width: 30%;
+        }
+
+        .pg-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pg-item h3 {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .main-footer {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'image/1.png' %}" alt="StayEase Logo" width="150px">        
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'notice' %}" class="btn notice-btn">Notice Board</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero-section">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Find, Compare, and Book with StayEase</h1>
+            <p>An inclusive accommodation platform for students and employees, providing diverse options and exclusive discounts.</p>
+            <div class="search-bar">
+                <select class="category">
+                    <option value="" disabled selected hidden>Category</option>
+                    <option value="1">Students</option>
+                    <option value="3">Teachers</option>
+                    <option value="4">Non-Teaching Staff</option>   
+                    <option value="2">Housekeeping Staff</option>                 
+                </select>
+                <select class="location">
+                    <option value="" disabled selected hidden>Location</option>
+                    <option value="1">BYC</option>
+                    <option value="2">BGR</option>
+                    <option value="3">BCC</option>
+                    <option value="4">BKC</option>                        
+                </select>
+                <a href="{% url 'home_pg' %}" class="btn login-btn">Search</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

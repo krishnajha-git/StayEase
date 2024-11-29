@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Advertisements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(215, 240, 250);
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        }
+
+        /* Container for search and logout buttons */
+        #div-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+            background-color: #ADE1FB;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .value {
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .div-sort, .div-search {
+            margin-right: 10px;
+        }
+
+        /* Main content */
+        .container {
+            display: flex;
+            flex-direction: row;
+            margin: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Advertisements list */
+        .ad-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .ad-card {
+            background-color: #b3e5fc;
+            color: rgb(0, 0, 0);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .ad-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .create-ad-button {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #0F2573;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .create-ad-button:hover {
+            background-color: #09224a;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #0F2573;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #09224a;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Specific Button Styles */
+        #search {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .div-search button {
+            background-color: #0f0b82; /* Greenish color for Search */
+        }
+        
+        .div-search button:hover {
+            background-color: #52c024;
+        }
+        
+        .div-sort button {
+            background-color: #0f0b82; /* Red for Logout */
+        }
+        
+        .div-sort button:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Delete Button */
+        .ad-card button {
+            background-color: #0f0b82; /* Red for Delete */
+        }
+        
+        .ad-card button:hover {
+            background-color: #d32f2f;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 10px;
+            }
+
+            #div-container {
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .ad-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Search and Logout -->
+    <div id="div-container">
+        <div class="div-search">
+            
+        </div>
+        <div class="div-sort">
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Advertisements Section -->
+    <div class="container">
+        <main class="main-content">
+            <h1>Hello, {{ advertiser_name }}</h1>  <!-- Display Advertiser Name -->
+
+            <section class="ad-grid">
+                {% if ads %}
+                    {% for ad in ads %}
+                        <div class="ad-card">
+                            {% if ad.profile_image %}
+                                <img src="{{ ad.profile_image.url }}" alt="{{ ad.ads_for }}" style="max-width: 100%; height: auto;">  <!-- Display Profile Image -->
+                            {% endif %}
+                            <h2>{{ ad.ads_for }}</h2>
+                            <p>{{ ad.description }}</p>
+                            <p>Contact: {{ ad.contact_details }}</p>
+                            <p>External Link: <a href="{{ ad.external_link }}">{{ ad.external_link }}</a></p>
+                            <div>
+                                <button onclick="confirmDelete('{{ ad.ad_id }}', this)">Delete</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No advertisements found for this advertiser.</p>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Ad Button -->
+    <a href="{% url 'post_ad' advertiser_id=advertiser_id %}" class="create-ad-button">Create New Ad</a>
+</body>
+<script>
+    function confirmDelete(ad_id, button) {
+        const confirmed = confirm("Are you sure you want to delete this?");
+        if (confirmed) {
+            // Send a delete request using AJAX
+            fetch(`/delete_ad/${ad_id}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // Ensure you pass the CSRF token for security
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the ad card if deletion is successful
+                    const adCard = button.closest('.ad-card');
+                    adCard.remove();
+                } else {
+                    console.error('Failed to delete the ad');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+  </script>
+</html>
+
